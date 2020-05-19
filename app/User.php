@@ -39,18 +39,11 @@ class User extends Authenticatable
 
     public function getAvatarAttribute()
     {
-        return "https://i.pravatar.cc/40?u=" . $this->email;
+        return "https://i.pravatar.cc/200?u=" . $this->email;
     }
 
     public function timeline()
     {
-        //inclde all of the user's tweets
-        //as well as the teweets f everyone
-        //they follow... in descending orden by date
-        //$ids = $this->follows()->pluck('id');
-        //$ids->push($this->id);
-        //return Tweet::whereIn('user_id', $ids)->latest()->get();
-
         $friends = $this->follows()->pluck('id');
 
         return Tweet::whereIn('user_id', $friends)
@@ -78,4 +71,10 @@ class User extends Authenticatable
             'following_user_id'
         );
     }
+    
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+    
 }

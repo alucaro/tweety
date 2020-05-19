@@ -1,5 +1,8 @@
 <?php
 
+//Si deseo conocer la consulta realizada a la base de datos
+//DB::listen(function ($query) { var_dump($query->sql, $query->bindings); });
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/tweets', 'TweetsController@store');
 });
 
-
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 
 Auth::routes();
