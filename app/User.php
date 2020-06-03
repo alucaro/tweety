@@ -16,7 +16,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+         'username', 'avatar', 'name', 'email', 'password',
+         //si estamos seguros de todo usamos protected $guarded = []; no se preocupa por validar
     ];
 
     /**
@@ -37,9 +38,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute()
+    public function getAvatarAttribute($value)
     {
-        return "https://i.pravatar.cc/200?u=" . $this->email;
+        $temp_route = asset($value);
+        $fine_url = str_replace("avatars", "storage/avatars", $temp_route);
+        //This solution don´t work, i need to change it
+        //return asset($value);
+        return ($fine_url);
     }
 
     public function timeline()
@@ -60,7 +65,7 @@ class User extends Authenticatable
 
     public function path($append = '')
     {
-        $path = route('profile', $this->name);
+        $path = route('profile', $this->username);
         return $append ? " {$path}/{$append}" : $path;
     }
     
