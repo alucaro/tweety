@@ -50,7 +50,9 @@ class User extends Authenticatable
     // $user->password = 'foobar';
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        //Como estaba en la tutorial no me funciono, asi que quite el bcrypt
+        //$this->attributes['password'] = bcrypt($value);
+        $this->attributes['password'] = $value;
     }
 
     public function timeline()
@@ -60,7 +62,7 @@ class User extends Authenticatable
         return Tweet::whereIn('user_id', $friends)
                         ->orWhere('user_id', $this->id)
                         ->latest()
-                        ->get();
+                        ->paginate(10);
 
     }
 
