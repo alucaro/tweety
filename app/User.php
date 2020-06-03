@@ -40,11 +40,17 @@ class User extends Authenticatable
 
     public function getAvatarAttribute($value)
     {
-        $temp_route = asset($value);
+        $temp_route = asset($value ?: 'http://127.0.0.1:8000/images/default-avatar.jpeg');
         $fine_url = str_replace("avatars", "storage/avatars", $temp_route);
         //This solution don´t work, i need to change it
         //return asset($value);
         return ($fine_url);
+    }
+
+    // $user->password = 'foobar';
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
     }
 
     public function timeline()
